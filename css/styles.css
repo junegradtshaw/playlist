@@ -1,0 +1,106 @@
+*html {
+  font-family: "avenir";
+}
+
+.container {
+  background-color: purple;
+  height: 100vh;
+  width: 0 auto;
+}
+
+
+.headerFooter {
+  background-color: gray;
+  height:30px;
+  width: 0 auto;
+}
+
+#titleSplashSide {
+  width: 48%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+#titleSplash {
+  display: table-cell;
+  vertical-align: middle;
+  /*margin: auto;*/
+  width: 30%;
+  height: 30%;
+}
+
+#titleSplash h1 {
+  text-align:center;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 50%;
+  font-weight: lighter;
+}
+
+#titleSplash button {
+  width: 100%;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  border-radius: 15px;
+  background-color: black;
+  color: white;
+}
+
+#imgSplash {
+  width: 420px;
+  height: 530px;
+}
+
+#trackBin {
+  color: purple;
+}
+
+#imgSplashSide {
+  width: 48%;
+  height: 100%;
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#railroad {
+  display: inline-block;
+  max-height: 100%;
+  max-width: 100%;
+  opacity: 19%;
+  position: relative;
+}
+
+#splashGallery {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.splashImage {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-height: 30%;
+  max-width: 30%;
+  display: block;
+}
+
+footer {
+  color: black;
+  padding-left: 50px;
+}
