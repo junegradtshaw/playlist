@@ -6,16 +6,34 @@
   <title>Tracks</title>
 </head>
 <body>
-  <header>
+  <div id = "container">
+    <header>
+      <div id = "playlistHeader">
+        <h1>click an album to add its tracks to the bin</h1>
+      </div>
+    </header>
+    <main>
+      <div id = "albumGallery">
 
-  </header>
-  <main>
+      </div>
+      <div id = "playlistContainer">
+        <section id = "playlistTitles">
 
-  </main>
-  <footer>
+        </section>
+        <div id = "playlistButtonRow">
+          <button type="button" name ="clearButton">clear tracks</button>
+          <button type="submit" name="submitButton">submit bin</button>
+        </div>
+      </div>
 
-  </footer>
-  <script type="text/javascript" src = "js/domTracklist.js"></script>
+    </main>
+    <footer class="headerFooter" class = "copyRight">@2015 June Shaw
+    </footer>
+  </div>
+  <script src="/Users/June/Workspace/Resources/jquery-1.11.3.min.js"></script>
+
+  <!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.2.min.js"></script> -->
+  <script type="text/javascript" src = "js/domPlaylist.js"></script>
   <script type="text/javascript" src = "js/logic.js"></script>
 </body>
 </html>

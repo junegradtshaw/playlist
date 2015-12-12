@@ -54,6 +54,12 @@ function initAPIPost (APIString) {
 // Process API get
 function processAPIGet(response) {
 
+  //Fill splash page gallery
+  fillSplashGallery (response);
+
+}
+
+function fillSplashGallery(response) {
   var numAlbumsNeeded = 3;
 
   // Get an array of 3 album covers based on the response.
@@ -89,14 +95,11 @@ function getAlbumCovers(numAlbumsNeeded, albumAvailArray) {
       albumCovers.push(albumAvailArray[randomNumber]["cover_art"]);
       numAlbum++;
     }
-
-    //Look at the next album.
   };
-
 
   for (var i = 0; i < albumCovers.length; i++) {
     var id = "splashImage" + i;
-    // $( "img" ).attr( "src", function() {
+
     $('#'+id).attr( "src", "images/"+albumCovers[i]);
 
     // $('#'+id).src = albumCovers[i];
