@@ -9,7 +9,12 @@
 }
 
 
-#headerFooter {
+footer {
+  color: black;
+  padding-left: 50px;
+}
+
+.headerFooter {
   background-color: gray;
   height:30px;
   width: 0 auto;
@@ -146,12 +151,6 @@ button {
   max-width: 30%;
   display: inline-block;
 }
-
-footer {
-  color: black;
-  padding-left: 50px;
-}
-
 
 #albumGallery {
   width: 100%;
