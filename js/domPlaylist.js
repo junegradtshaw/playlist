@@ -11,7 +11,12 @@ var APIStringPost = "https://lit-fortress-6467.herokuapp.com/post";
 // Data to post
 // jsonString = "{"results":[{"id":2,"title":"Ghost in the Machine","artist":"The Police","cover_art":"ghost_in_the_machine.jpg"},{"id":6,"title":"Red","artist":"Black Uhuru","cover_art":"red.jpg"},{"id":22,"title":"The Division Bell","artist":"Pink Floyd","cover_art":"the_division_bell.jpg"},{"id":18,"title":"Thriller","artist":"Michael Jackson","cover_art":"thriller.jpg"},{"id":55,"title":"21","artist":"Adele","cover_art":"21.jpg"}]}";
 
-// jsonString = "{"results":[{"id":2,"title":"Ghost in the Machine","artist":"The Police","cover_art":"ghost_in_the_machine.jpg"},{"id":6,"title":"Red","artist":"Black Uhuru","cover_art":"red.jpg"},{"id":22,"title":"The Division Bell","artist":"Pink Floyd","cover_art":"the_division_bell.jpg"},{"id":18,"title":"Thriller","artist":"Michael Jackson","cover_art":"thriller.jpg"},{"id":55,"title":"21","artist":"Adele","cover_art":"21.jpg"}]}";
+//offline below
+
+// var response = JSON.parse('"{"results":[{"id":2,"title":"Ghost in the Machine","artist":"The Police","cover_art":"ghost_in_the_machine.jpg"},{"id":6,"title":"Red","artist":"Black Uhuru","cover_art":"red.jpg"},{"id":22,"title":"The Division Bell","artist":"Pink Floyd","cover_art":"the_division_bell.jpg"},{"id":18,"title":"Thriller","artist":"Michael Jackson","cover_art":"thriller.jpg"},{"id":55,"title":"21","artist":"Adele","cover_art":"21.jpg"}]}"');
+
+// processAPIGet(response);
+//offline above
 
 //
 // var jsonObject = {
@@ -25,13 +30,6 @@ var APIStringPost = "https://lit-fortress-6467.herokuapp.com/post";
 // Process the click of an image.
 $(document).on("click", ".playlistImage",
 function() {
-  //
-// processImageClick(this.getAttribute("id")));
-
-//  We want to allow the user to
-// pick albums and have them populate the results container with
-// the album's artist and title.
-// function processImageClick (element)
 
   // Get the matching artist and title for the image's id number.
   // var albumId = this.parentNode.attr("id");
@@ -53,45 +51,54 @@ function() {
   // Now that we have the album's info,
   // make sure the newly selected album is not already on the playlist.
   var allAlbums=$('#playlistTitles');
-  console.log("all albums", allAlbums);
+  var foundMatch = false;
+  var playlistTitleChildren = allAlbums.children();
 
-  // var albums = document.getElementById('playlistTitles').children();
-  // var tracks = $('#playlistTitles').appendChild();
-  var tracks = $('#playlistTitles p').children('p');
-  console.log('playlistTitles childNodes = ', tracks);
-  console.log('tracks length: ', tracks.length);
-  // albums.forEach(function (child) {
-  // for (var i = 0; i < tracks.length; i++)
-  $('#playlistTitles').children('p').forEach;
-  {
-    console.log(albumId, tracks)
-    var foundMatch = false;
-    if (tracks[i].id == albumId) {
+  for (var i = 0; i < playlistTitleChildren.length; i++) {
+    if (playlistTitleChildren[i].data.id == albumId) {
         foundMatch = true;
     }
   };
 
   // If that track isn't already in the playlist,
   // then append the artist and title to the container of
-  // results.  Store the album id as the internal data
+  // results.  Store the album id as the arbitrary data
   // of the new container element.
   if (!foundMatch) {
-    $('#playlistTitles').append('<p data= {id:' + albumId + '}>'+ artist + ': ' + title + '</p>');
+    var albumNode = document.createElement("p");
+    albumNode.innerHTML = artist + ': ' + title;
+    albumNode.data = {"id":albumId, "artist":artist, "title":title};
+    allAlbums.append(albumNode);
+
   }
 });
 
 // When the user clicks the empty button,
 // we will empty the container.
-$(document).on("click", ".playlistImage", emptyDiv());
+$(document).on("click", "#clearButton", emptyDiv);
 
 // Empty the results container of all prior picks for a playlist.
 function emptyDiv() {
+
+  // Get all the playlist titles added to the container.
+  var allAlbums = $('playlistTitles').children();
+
+  //Iterate through the playlist title and remove each child, or album.
+  var album = allAlbums.firstChild;
+  while( album ) {
+      allAlbums.removeChild(album);
+      album = allAlbums.firstChild;
+  }
+
+  // Empty out any associated leftover elements for the albums that
+  // were just deleted.
   $('#playlistTitles').empty();
-}
+
+};
 
 // When the user clicks submit, post the query
 // of those playlist articles to the API.
-$(document).on("click", "#submit", createPlaylist());
+$(document).on("click", "#submitButton", createPlaylist);
 
 // Submit the playlist to the API
 function createPlaylist() {
@@ -101,21 +108,22 @@ function createPlaylist() {
   album.results = [];
 
   // For each string in the playlist container,
-  // get the id
+  // crete a JSON object and push it to an array to
+  // make an API post.
   var albumResultsIndex = 0;
-  $('#playlistTitles > p').each(function() {
-    albumId = this.data('id');
+
+  var allAlbums = $('#playlistTitles').children();
+  for (var i = 0; i < allAlbums.length; i++) {
 
     // Create a new object for the JSON package.
-    album.results[albumResultsIndex] =
+    var albumId = allAlbums[i].id;
+    var albumArtist = allAlbums[i].artist;
+    var albumTitle = allAlbums[i].title;
+    album.results.push(
       {id: albumId,
-      artist: albumTracks[albumId].artist,
-      title: albumTracks[albumId].title};
-      console.log("album to post: ", album.results[albumResultsIndex]);
-
-    // Increment array index to create the next object.
-    albumResultsIndex++;
-  });
+      artist: albumArtist,
+      title: albumTitle});
+  };
 
   // Post the playlist to the API.
   initAPIPost (APIStringPost, album);
@@ -197,18 +205,9 @@ function fillPlaylistGallery (response) {
 
     // Build the HTML string for the album art itself.
     var htmlStringImg ="<img class = playlistImage src= images/" + arrayAlbums[i]["cover_art"] + " alt = Gallery pic #" + i + ">";
-console.log("htmlStringImg: ", htmlStringImg);
 
     // Append the album art to that new div.
-console.log('#'+idAlbumCover);
     $('#'+idAlbumCover).append(htmlStringImg);
-
-    // Build the HTML string for the album title.
-    // var htmlStringTitle = "<p> " + arrayAlbums[i]["title"] + "</p>"
-// console.log("title: ", htmlStringTitle);
-
-    // Append the string to the title div.
-    // $('#playlistTitles').append(htmlStringTitle);
   }
 };
 
@@ -220,5 +219,4 @@ function processAPIPost(response) {
 // Initialize the API
 function readyFunction () {
   initAPIGet(APIStringGet);
-  initAPIPost(APIStringPost, {});
 };
